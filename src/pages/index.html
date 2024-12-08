@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="../css/output.css" />
+  </head>
+  <body>
+        <header class="flex justify-between items-center bg-primary text-white p-4">
+          <section class="flex items-center gap-4 h-full">
+            <i class="fa-solid fa-list fa-xl"></i>
+            <p class="text-xl font-semibold">My To-Do Tasks</p>
+          </section>
+          <section class="flex items-center gap-6">
+            <div id="searchBox" class="bg-secondary flex items-center p-2 pl-4 gap-4 rounded-md">
+              <button>
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+              <input type="search" placeholder="Search" class="bg-secondary outline-none " />
+            </div>
+            <button>
+              <i class="fa-solid fa-filter text-xl"></i>
+            </button>
+            <button class="bg-white rounded-sm flex p-2 items-center" onclick="openAddToDoModal()">
+              <i class="fa-solid fa-plus text-primary"></i>
+            </button>
+          </section>
+        </header>
+        <main>
+          <table class="w-full">
+            <thead>
+              <tr class="capitalize border border-gray-700 w-full">
+                <th class="border border-gray-700 w-2/6">task name</th>
+                <th class="border border-gray-700 w-1/6">priority</th>
+                <th class="border border-gray-700 w-1/6">status</th>
+                <th class="border border-gray-700 w-1/6">deadline</th>
+                <th class="border border-gray-700 w-1/6">actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+          </table>
+        </main>
+        <footer></footer>
+      </div>
+    </div>
+    <script src="../js/main.js"></script>
+  </body>
+</html>
