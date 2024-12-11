@@ -9,16 +9,89 @@
     <link rel="stylesheet" href="../css/output.css" />
   </head>
   <body>
+    <div id='overlay' class="absolute hidden z-10 inset-x-0 inset-y-0 bg-black/70" onclick="closeModal()"></div>
+    <div id="modal" class="absolute hidden z-50 w-3/4 bg-white shadow-lg min-h-60 left-1/2 top-1/2 translate-y-[-50%] translate-x-[-50%] py-4 rounded-lg">
+      <h2 class="text-primary text-lg text-center border-b-2 border-primary pb-4">You Can Add Task</h2>
+      <form name="add-task-form" class="flex flex-col gap-3 p-8 pb-4" autocomplete="off">
+
+        <!-- task name input -->
+        <div class="flex">
+          <label class="capitalize w-1/5" for="taskName">task name</label>
+          <div class="flex flex-col gap-1 w-4/5">
+            <input name="taskName" class=" border border-neutral-900 focus:border-primary outline-none rounded-md py-1 px-2" type="text" placeholder="Enter task name"/>
+            <p id="taskNameEmptyError" class="hidden capitalize text-red-800 bg-red-300 px-2 py-1 rounded-md">this field is empty</p>
+            <p id="taskNameSuccessMessage" class="hidden capitalize text-green-800 bg-green-300 px-2 py-1 rounded-md">this field is correct</p>
+          </div>
+        </div>
+
+        <!-- priority radio buttons -->
+        <div class="flex">
+          <label class="capitalize w-1/5" for="priority">priority</label>
+          <div class="flex flex-col gap-1 w-4/5">
+            <div class="flex items-center gap-4">
+              <div class="flex items-center">
+                <input class="mr-1" type="radio" name="priority" value='low'/>
+                <label class="capitalize text-slate-950 text-sm" for="low">Low</label>
+              </div>
+              <div class="flex items-center">
+                <input class="mr-1" type="radio" name="priority" value='medium'/>
+                <label class="capitalize text-slate-950 text-sm" for="medium">medium</label>
+              </div>
+              <div class="flex items-center">
+                <input class="mr-1" type="radio" name="priority" value='high'/>
+                <label class="capitalize text-slate-950 text-sm" for="high">high</label>
+              </div>
+            </div>
+            <p id="priorityEmptyError" class="hidden capitalize text-red-800 bg-red-300 px-2 py-1 rounded-md">please select anyone</p>
+          </div>
+        </div>
+
+        <!-- status radio buttons -->
+        <div class="flex items-center">
+          <label class="capitalize w-1/5" for="taskName">status</label>
+          <div class="flex flex-col gap-1 w-4/5">
+            <div class="flex items-center gap-4">
+              <div>
+                <input type="radio" name="status" value="todo" id="todo" />
+                <label for="todo" class="capitalize text-slate-950 text-sm">todo</label>
+              </div>
+              <div>
+                <input type="radio" name="status" value="doing" id="doing" />
+                <label for="doing" class="capitalize text-slate-950 text-sm">doing</label>
+              </div>
+              <div>
+                <input type="radio" name="status" value="done" id="done" />
+                <label for="done" class="capitalize text-slate-950 text-sm">done</label>
+              </div>
+            </div>
+            <p id="statusEpmtyError" class="hidden capitalize text-red-800 bg-red-300 px-2 py-1 rounded-md">please select anyone</p>
+            <p id="statusCorrectMessage" class="hidden capitalize text-green-800 bg-green-300 px-2 py-1 rounded-md">this is correct</p>
+          </div>
+
+        </div>
+
+        <!-- deadline input type date -->
+        <div class="flex items-center">
+          <label class="capitalize w-1/5" for="taskName">deadline</label>
+          <div class="flex flex-col gap-1 w-4/5">
+            <input name="deadLine" class="border border-neutral-900 focus:border-primary outline-none rounded-md py-1 px-2" type="date" value='' placeholder="Please Enter deadLine"/>
+            <p id="deadLineEmptyError" class="hidden capitalize text-red-800 bg-red-300 px-2 py-1 rounded-md">empty deadLine date</p>
+          </div>
+        </div>
+
+        <button type="submit" class="mt-4 text-primary capitalize border border-primary hover:bg-primary hover:text-white py-2 px-4 rounded-md font-semibold transition-all duration-500">add task</button>
+      </form>
+    </div>
         <header class="flex justify-between items-center bg-primary text-white p-4">
-          <section class="flex items-center gap-4 h-full">
+          <section class="flex items-center gap-6">
             <i class="fa-solid fa-list fa-xl"></i>
             <p class="text-xl font-semibold">My To-Do Tasks</p>
           </section>
           <section class="flex items-center gap-6">
             <div id="searchBox" class="bg-secondary flex items-center p-2 pl-4 gap-4 rounded-md">
               <button>
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
               <input type="search" placeholder="Search" class="bg-secondary outline-none " />
             </div>
             <button>
@@ -31,16 +104,33 @@
         </header>
         <main>
           <table class="w-full">
-            <thead>
-              <tr class="capitalize border border-gray-700 w-full">
-                <th class="border border-gray-700 w-2/6">task name</th>
-                <th class="border border-gray-700 w-1/6">priority</th>
-                <th class="border border-gray-700 w-1/6">status</th>
-                <th class="border border-gray-700 w-1/6">deadline</th>
-                <th class="border border-gray-700 w-1/6">actions</th>
+            <thead class="">
+              <tr class="capitalize border border-gray-700 w-full h-12">
+                <th class="border border-gray-700 w-1/5 h-full">task name</th>
+                <th class="border border-gray-700 w-1/5 h-full">priority</th>
+                <th class="border border-gray-700 w-1/5 h-full">status</th>
+                <th class="border border-gray-700 w-1/5 h-full">deadline</th>
+                <th class="border border-gray-700 w-1/5 h-full">actions</th>
               </tr>
             </thead>
             <tbody id="tableBody">
+              <!-- <tr class="capitalize border border-gray-700 w-full h-12">
+                <td class="border border-gray-700 h-12"><p class="w-max mx-auto">task name</p></td>
+                <td class="border border-gray-700 w-1/6 h-12 text-center">
+                  <p class="py-1 px-2 rounded-2xl bg-red-status w-max text-white mx-auto">priority</p>
+                </td>
+                <td class="border border-gray-700 w-1/6 h-12 text-center">
+                  <p class="py-1 px-2 rounded-2xl bg-red-status w-max text-white mx-auto">status</p>
+                </td>
+                <td class="border border-gray-700 w-1/6 h-12"><p class="w-max mx-auto px-4 py-1 border border-blue-500 rounded-3xl">deadline</p></td>
+                <td class="border border-gray-700 w-1/6 h-12">
+                  <div class="flex gap-2 w-max mx-auto">
+                    <i onclick="deleteTask()" class="fa-solid fa-trash w-10 h-7 text-xs rounded-md bg-red-status text-white flex justify-center items-center cursor-pointer" data-index=`${item.id}`></i>
+                    <i onclick="editeTask()" class="fa-solid fa-pen w-10 h-7 text-xs rounded-md bg-blue-status text-white flex justify-center items-center cursor-pointer" data-index=`${item.id}`></i>
+                    <i onclick="viewTask()" class="fa-solid fa-eye w-10 h-7 text-xs rounded-md bg-gray-status text-white flex justify-center items-center cursor-pointer" data-index=`${item.id}`></i>
+                  </div>
+                </td>
+              </tr> -->
             </tbody>
           </table>
         </main>
