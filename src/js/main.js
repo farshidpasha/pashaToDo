@@ -55,6 +55,40 @@ const closeModal = () => {
   modal_element.classList.add('hidden');
 };
 
+const renderPriorityStyle = (priorityValue) => {
+  let priorityBgColorClass = null;
+  let priorityTextColorClass = null;
+
+  if (priorityValue === 'low') {
+    priorityBgColorClass = 'bg-light-gray-status';
+    priorityTextColorClass = 'text-black';
+  } else if (priorityValue === 'medium') {
+    priorityBgColorClass = 'bg-yellow-status';
+    priorityTextColorClass = 'text-black';
+  } else if (priorityValue === 'high') {
+    priorityBgColorClass = 'bg-red-status';
+    priorityTextColorClass = 'text-white';
+  }
+  return { bgColor: priorityBgColorClass, textColor: priorityTextColorClass };
+};
+
+const renderStatusStyle = (statusValue) => {
+  let statusBgColorClass = null;
+  let statusTextColorClass = null;
+
+  if (statusValue === 'todo') {
+    statusBgColorClass = 'bg-red-status';
+    statusTextColorClass = 'text-white';
+  } else if (statusValue === 'doing') {
+    statusBgColorClass = 'bg-yellow-status';
+    statusTextColorClass = 'text-black';
+  } else if (statusValue === 'done') {
+    statusBgColorClass = 'bg-green-status';
+    statusTextColorClass = 'text-white';
+  }
+  return { bgColor: statusBgColorClass, textColor: statusTextColorClass };
+};
+
 const addTask = () => {
   let tasksString = localStorage.getItem('data');
   // data value is null fixed
@@ -62,19 +96,28 @@ const addTask = () => {
   console.log(data);
   tableBody_element.innerHTML = '';
   data.forEach((item) => {
+    console.log(typeof item.priority, item.priority);
     tableBody_element.innerHTML += `
-    <tr class="capitalize border border-gray-700 w-full h-12">
-    <td class="border border-gray-700 w-1/5 h-12"><p class="w-max mx-auto">${item.taskName}</p></td>
-    <td class="border border-gray-700 w-1/5 h-12 text-center">
-      <p class="py-1 px-2 rounded-2xl bg-red-status w-max text-white mx-auto">${item.priority}</p>
+    <tr class="border border-gray-700 w-full h-12">
+    <td class="border border-gray-700 w-1/5 h-12"><p class="w-max">${item.taskName}</p></td>
+    <td class="capitalize border border-gray-700 w-1/5 h-12 text-center">
+      <p class="py-1 px-2 rounded-2xl ${renderPriorityStyle(item.priority).bgColor} ${
+      renderPriorityStyle(item.priority).textColor
+    } w-max mx-auto">${item.priority}</p>
     </td>
-    <td class="border border-gray-700 w-1/5 h-12 text-center">
-      <p class="py-1 px-2 rounded-2xl bg-red-status w-max text-white mx-auto">${item.status}</p>
+    <td class="capitalize border border-gray-700 w-1/5 h-12 text-center">
+      <p class="py-1 px-2 rounded-2xl ${renderStatusStyle(item.status).bgColor} ${
+      renderStatusStyle(item.status).textColor
+    } w-max mx-auto">${item.status}</p>
     </td>
-    <td class="border border-gray-700 w-1/5 h-12"><p class="w-max mx-auto px-4 py-1 border border-blue-500 rounded-3xl">${item.deadLine}</p></td>
+    <td class="border border-gray-700 w-1/5 h-12"><p class="w-max mx-auto px-4 py-1 border border-blue-500 rounded-3xl">${
+      item.deadLine
+    }</p></td>
     <td class="border border-gray-700 w-1/5 h-12">
       <div class="flex gap-2 w-max mx-auto">
-        <i onclick="deleteTask('${item.id}')" class="fa-solid fa-trash w-10 h-7 text-xs rounded-md bg-red-status text-white flex justify-center items-center cursor-pointer"></i>
+        <i onclick="deleteTask('${
+          item.id
+        }')" class="fa-solid fa-trash w-10 h-7 text-xs rounded-md bg-red-status text-white flex justify-center items-center cursor-pointer"></i>
         <i onclick="editeTask()" class="fa-solid fa-pen w-10 h-7 text-xs rounded-md bg-blue-status text-white flex justify-center items-center cursor-pointer"></i>
         <i onclick="viewTask()" class="fa-solid fa-eye w-10 h-7 text-xs rounded-md bg-gray-status text-white flex justify-center items-center cursor-pointer"></i>
       </div>

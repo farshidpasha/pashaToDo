@@ -15,5 +15,15 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    'bg-red-status',
+    'bg-yellow-status',
+    'bg-green-status',
+    'bg-blue-status',
+    'bg-gray-status',
+    'bg-light-gray-status',
+    'text-3xl',
+    'lg:text-4xl',
+  ],
   plugins: [],
 };
