@@ -93,10 +93,8 @@ const addTask = () => {
   let tasksString = localStorage.getItem('data');
   // data value is null fixed
   data = JSON.parse(tasksString) || [];
-  console.log(data);
   tableBody_element.innerHTML = '';
   data.forEach((item) => {
-    console.log(typeof item.priority, item.priority);
     tableBody_element.innerHTML += `
     <tr class="border border-gray-700 w-full h-12">
     <td class="border border-gray-700 w-1/5 h-12"><p class="w-max">${item.taskName}</p></td>
@@ -127,7 +125,18 @@ const addTask = () => {
   });
 };
 
-const deleteTask = (id) => {};
+const deleteTask = (id) => {
+  const deletionItemIndex = null;
+  data.filter((item, index) => {
+    if (item.id === id) {
+      data.splice(index, 1);
+    }
+  });
+  localStorage.setItem('data', JSON.stringify(data));
+  console.log('d', data);
+  console.log('ls', localStorage.getItem('data'));
+  addTask();
+};
 
 // main scripts
 taskForm.addEventListener('submit', (e) => {
@@ -188,7 +197,7 @@ taskForm.addEventListener('submit', (e) => {
   //send data to localStorage if all is validate
   if (statusValid === true && priorityValid === true && taskNameValue !== '' && deadLineValue !== '') {
     taskData = {
-      id: Date.now(),
+      id: String(Date.now()),
       taskName: taskNameValue,
       priority: priorityValue,
       status: statusValue,
