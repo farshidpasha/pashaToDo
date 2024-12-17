@@ -41,7 +41,7 @@ let taskData = {
 };
 
 // ------ functions ------
-const openAddToDoModal = () => {
+const openTaskModal = () => {
   overlay_element.classList.remove('hidden');
   overlay_element.classList.add('block');
   modal_element.classList.remove('hidden');
@@ -116,8 +116,12 @@ const addTask = () => {
         <i onclick="deleteTask('${
           item.id
         }')" class="fa-solid fa-trash w-10 h-7 text-xs rounded-md bg-red-status text-white flex justify-center items-center cursor-pointer"></i>
-        <i onclick="editeTask()" class="fa-solid fa-pen w-10 h-7 text-xs rounded-md bg-blue-status text-white flex justify-center items-center cursor-pointer"></i>
-        <i onclick="viewTask()" class="fa-solid fa-eye w-10 h-7 text-xs rounded-md bg-gray-status text-white flex justify-center items-center cursor-pointer"></i>
+        <i onclick="editTask('${
+          item.id
+        }')" class="fa-solid fa-pen w-10 h-7 text-xs rounded-md bg-blue-status text-white flex justify-center items-center cursor-pointer"></i>
+        <i onclick="viewTask('${
+          item.id
+        }')" class="fa-solid fa-eye w-10 h-7 text-xs rounded-md bg-gray-status text-white flex justify-center items-center cursor-pointer"></i>
       </div>
     </td>
   </tr>
@@ -126,23 +130,32 @@ const addTask = () => {
 };
 
 const deleteTask = (id) => {
-  const deletionItemIndex = null;
   data.filter((item, index) => {
     if (item.id === id) {
       data.splice(index, 1);
     }
   });
   localStorage.setItem('data', JSON.stringify(data));
-  console.log('d', data);
-  console.log('ls', localStorage.getItem('data'));
   addTask();
 };
 
-// main scripts
-taskForm.addEventListener('submit', (e) => {
-  //form preventDefault fixed ***
-  e.preventDefault();
+const editTask = (id) => {
+  const editCase = data.find((item) => {
+    if (item.id === id) {
+      console.log(item);
+      return item;
+    }
+  });
+  taskName_InputElement.value = editCase.taskName;
+  deadLine_element.value = editCase.deadLine;
+  taskForm.addEventListener('submit', (e) => {
+    editCase.taskName = taskName_InputElement.value;
+    editCase.deadLine = deadLine_element.value;
+  });
+};
 
+// main scripts
+function renderAddTask() {
   //Validation *** TASKNAME ***
   if (taskName_InputElement.value === '') {
     taskName_EmptyError_Element.classList.remove('hidden');
@@ -215,7 +228,14 @@ taskForm.addEventListener('submit', (e) => {
     deadLine_errorMessage.classList.remove('block');
     deadLine_errorMessage.classList.add('hidden');
     closeModal();
-    addTask();
   }
+}
+
+taskForm.addEventListener('submit', (e) => {
+  //form preventDefault fixed ***
+  e.preventDefault();
+  renderAddTask();
+  addTask();
 });
+
 addTask();
